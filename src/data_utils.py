@@ -3,6 +3,7 @@
 import pandas as pd
 import numpy as np
 from sklearn.decomposition import PCA, NMF
+import networkx as nx
 
 class RecipeAnalysis:
     def __init__(self, file_path):
@@ -54,6 +55,13 @@ class RecipeAnalysis:
         """
         build a co-occurrence network from binary features
         """
+        cooc = self.recipes[self.binary_cols].T.dot(self.recipes[self.binary_cols])
+        np.fill_diagonal(cooc.values, 0)
+        cooc_threshold = cooc.stack()[cooc.stack() >= threshold]
+        self.cooc_graph = nx.from_pandas_edgelist(
+            cooc_threshold.reset_index(), source='level_0', target='level_1', edge_attr=0
+        )
+        return self.cooc_graph
         
 
     def run_lasso(self, target_col='rating', cv=5):
