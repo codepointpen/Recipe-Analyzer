@@ -48,6 +48,19 @@ class RecipeAnalysis:
         for i in range(n_components):
             self.recipes[f'nmf_{i+1}'] = self.nmf_components[:, i]
         return self.nmf_components
+    
+    
+    def build_coocurrence_graph(self, threshold=100):
+        """
+        build a co-occurrence network from binary features
+        """
+        
+
+    def run_lasso(self, target_col='rating', cv=5):
+        """
+        fit Lasso regression and store coefficients
+        """
+
 
 
     
