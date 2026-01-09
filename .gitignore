@@ -210,3 +210,4 @@ __marimo__/
 data/raw/
 data/processed/
 01_import_data.ipynb
+import.py
