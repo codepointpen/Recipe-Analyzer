@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 from sklearn.decomposition import PCA, NMF
 import networkx as nx
+from sklearn.linear_model import LassoCV
 
 class RecipeAnalysis:
     def __init__(self, file_path):
@@ -68,6 +69,14 @@ class RecipeAnalysis:
         """
         fit Lasso regression and store coefficients
         """
+        X = self.recipes[self.binary_cols].values
+        y = self.recipes[target_col].values
+        model = LassoCV(cv=cv).fit(X, y)
+        self.lasso_coef_df = pd.DataFrame({
+            'tag': self.binary_cols,
+            'coef': model.coef_
+        }).sort_values('coef', ascending=False)
+        return self.lasso_coef_df
 
 
 
