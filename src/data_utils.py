@@ -13,7 +13,7 @@ class RecipeAnalysis:
         """
         initialize with dataset path
         """
-        self.recipes = pd.read_csv(file_path)
+        self.recipes = pd.read_csv(file_path, encoding="utf-8-sig")
         self.binary_cols = []
         self.continuous_cols = []
         self.pca_components = None
@@ -95,6 +95,10 @@ class RecipeAnalysis:
         plt.ylabel("Tag")
         plt.show()
         
-
+    def plot_cooc_network(self, top_n_edges=50):
+        """
+        plot the top co-occurring ingredient/metadata tags in the network
+        """
+        
 
     
