@@ -5,6 +5,8 @@ import numpy as np
 from sklearn.decomposition import PCA, NMF
 import networkx as nx
 from sklearn.linear_model import LassoCV
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 class RecipeAnalysis:
     def __init__(self, file_path):
@@ -82,6 +84,16 @@ class RecipeAnalysis:
         """
         plot top positive and negative tags from regression
         """
+        if self.lasso_coef_df is None:
+            raise ValueError("Run run_lasso() first!")
+        top_pos = self.lasso_coef_df.sort_values("coef", ascending=False).head(top_n)
+        top_neg = self.lasso_coef_df.sort_values("coef").head(top_n)
+        plt.figure(figsize=(10,6))
+        sns.barplot(x="coef", y="tag", data=pd.concat([top_pos, top_neg]))
+        plt.title("Top Positive and Negative Tags for Recipe Ratings")
+        plt.xlabel("Coefficient (Impact on Rating)")
+        plt.ylabel("Tag")
+        plt.show()
         
 
 
