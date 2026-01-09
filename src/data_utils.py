@@ -20,6 +20,11 @@ class RecipeAnalysis:
         """
         identify numeric, binary, and continuous columns
         """
+        numeric_cols = self.recipes.select_dtypes(include=np.number).columns.tolist()
+        self.binary_cols = [c for c in numeric_cols if self.recipes[c].dropna().isin([0,1]).all()]
+        self.continuous_cols = list(set(numeric_cols) - set(self.binary_cols))
+        return self.binary_cols, self.continuous_cols
+
 
     def run_pca(self, n_components=5):
         """
