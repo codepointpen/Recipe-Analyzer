@@ -2,6 +2,7 @@
 
 import pandas as pd
 import numpy as np
+from sklearn.decomposition import PCA, NMF
 
 class RecipeAnalysis:
     def __init__(self, file_path):
@@ -30,11 +31,23 @@ class RecipeAnalysis:
         """
         run PCA on binary columns and store components
         """
+        X = self.recipes[self.binary_cols].values
+        pca = PCA(n_components=n_components)
+        self.pca_components = pca.fit_transform(X)
+        for i in range(n_components):
+            self.recipes[f'pca_{i+1}'] = self.pca_components[:, i]
+        return self.pca_components
 
     def run_nmf(self, n_components=5):
         """
         run NMF on binary columns and store components
         """
+        X = self.recipes[self.binary_cols].values
+        nmf = NMF(n_components=n_components, init='random', random_state=42)
+        self.nmf_components = nmf.fit_transform(X)
+        for i in range(n_components):
+            self.recipes[f'nmf_{i+1}'] = self.nmf_components[:, i]
+        return self.nmf_components
 
 
     
