@@ -20,6 +20,16 @@ class RecipeAnalysis:
         """
         identify numeric, binary, and continuous columns
         """
-        
+
+    def run_pca(self, n_components=5):
+        """
+        run PCA on binary columns and store components
+        """
+
+    def run_nmf(self, n_components=5):
+        """
+        run NMF on binary columns and store components
+        """
+
 
     
