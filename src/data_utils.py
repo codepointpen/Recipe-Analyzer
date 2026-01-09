@@ -8,7 +8,13 @@ class RecipeAnalysis:
         """
         initialize with dataset path
         """
-        
+        self.recipes = pd.read_csv(file_path)
+        self.binary_cols = []
+        self.continuous_cols = []
+        self.pca_components = None
+        self.nmf_components = None
+        self.lasso_coef_df = None
+        self.cooc_graph = None
 
     def preprocess(self):
         """
