@@ -99,6 +99,25 @@ class RecipeAnalysis:
         """
         plot the top co-occurring ingredient/metadata tags in the network
         """
+        if self.cooc_graph is None:
+            raise ValueError("Run build_coocurrence_graph() first!")
+
+        # sort edges by weight 
+        edges = sorted(self.cooc_graph.edges(data=True), key=lambda x: x[2]['weight'], reverse=True)
+        top_edges = edges[:top_n_edges]
+
+        G = nx.Graph()
+        G.add_edges_from([(u, v, {'weight': w['weight']}) for u, v, w in top_edges])
+
+        # draw the network
+        plt.figure(figsize=(12, 12))
+        pos = nx.spring_layout(G, seed=42) 
+        nx.draw_networkx_nodes(G, pos, node_size=500, node_color='skyblue')
+        nx.draw_networkx_edges(G, pos, width=[d['weight']*0.05 for (_, _, d) in G.edges(data=True)])
+        nx.draw_networkx_labels(G, pos, font_size=10)
+        plt.title("Top Co-occurring Recipe Tags Network")
+        plt.axis('off')
+        plt.show()
         
 
     
