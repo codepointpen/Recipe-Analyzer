@@ -77,7 +77,12 @@ class RecipeAnalysis:
             'coef': model.coef_
         }).sort_values('coef', ascending=False)
         return self.lasso_coef_df
-
+    
+    def plot_top_tags(self, top_n=10):
+        """
+        plot top positive and negative tags from regression
+        """
+        
 
 
     
